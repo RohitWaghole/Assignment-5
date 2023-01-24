@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  # MONGODB SERIVICES
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    ports:
+      - 2717:27017
+    volumes:
+      - mongo_db:/data/db
+
+  # NODE API SERVICE
+  api:
+    build: .
+    ports:
+      - 4000:3000
+    volumes:
+      - .:/index
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo_db:27017
+      DB_NAME: customerDB
+      NAME: Rohittttt
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
